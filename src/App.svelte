@@ -1,13 +1,15 @@
 <script>
-	export let name;
+	import HelloWorld from './components/HelloWorld.svelte'
+
+	export let name
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
+	<HelloWorld {name} />
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
 </main>
 
-<style type="text/scss">
+<style>
 	@import './scss/vars';
 
 	main {
@@ -15,13 +17,6 @@
 		padding: 1em;
 		max-width: 240px;
 		margin: 0 auto;
-	}
-
-	h1 {
-		color: $color;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
 	}
 
 	@media (min-width: 640px) {
