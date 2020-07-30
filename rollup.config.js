@@ -1,9 +1,13 @@
+import path from 'path';
 import svelte from 'rollup-plugin-svelte';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import autoPreprocess from 'svelte-preprocess';
+import alias from '@rollup/plugin-alias';
+import postcss from 'rollup-plugin-postcss'
+const aliasImporter = require("node-sass-alias-importer");
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -37,6 +41,20 @@ export default {
 		file: 'public/build/bundle.js'
 	},
 	plugins: [
+		alias({
+      entries: [
+        {
+					find: '@',
+					replacement: './src'
+				},
+      ]
+		}),
+
+		postcss({
+			plugins: [],
+			extensions: ['.scss'],
+    }),
+
 		svelte({
 			// enable run-time checks when not in production
 			dev: !production,
@@ -45,7 +63,11 @@ export default {
 			css: css => {
 				css.write('public/build/bundle.css');
 			},
-			preprocess: autoPreprocess(),
+			preprocess: autoPreprocess({
+				scss: {
+					prependData: `@import '${path.join(__dirname, 'src', 'scss', 'variables').replace(/\\/g, '/')}';`,
+				}
+			}),
 		}),
 
 		// If you have external dependencies installed from
