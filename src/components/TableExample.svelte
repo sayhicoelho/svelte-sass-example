@@ -1,5 +1,9 @@
 <script>
   import Example from '@/components/Example.svelte'
+
+  function onClick() {
+    alert('Hi!')
+  }
 </script>
 
 <table class="table table-striped">
@@ -15,7 +19,7 @@
       <th>1</th>
       <td>Example</td>
       <td>
-        <button class="btn btn-primary">
+        <button class="btn btn-primary" on:click={onClick}>
           click me
         </button>
       </td>

@@ -6,8 +6,8 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import autoPreprocess from 'svelte-preprocess';
 import alias from '@rollup/plugin-alias';
-import postcss from 'rollup-plugin-postcss'
-const aliasImporter = require("node-sass-alias-importer");
+
+const absoluteVariablesPath = path.join(__dirname, 'src', 'scss', 'variables').replace(/\\/g, '/')
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -50,11 +50,6 @@ export default {
       ]
     }),
 
-    postcss({
-      plugins: [],
-      extensions: ['.scss'],
-    }),
-
     svelte({
       // enable run-time checks when not in production
       dev: !production,
@@ -65,7 +60,7 @@ export default {
       },
       preprocess: autoPreprocess({
         scss: {
-          prependData: `@import '${path.join(__dirname, 'src', 'scss', 'variables').replace(/\\/g, '/')}';`,
+          prependData: `@import '${absoluteVariablesPath}';`,
         }
       }),
     }),
